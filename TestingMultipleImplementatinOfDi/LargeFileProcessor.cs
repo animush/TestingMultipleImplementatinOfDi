@@ -4,9 +4,9 @@ namespace TestingMultipleImplementatinOfDi
 {
     public class LargeFileProcessor : IFileProcessor
     {
-        public void ProcessFile()
+        public string ProcessFile()
         {
-            System.Console.WriteLine("Process large file"); 
+            return "Process large file";
         }
     }
 }

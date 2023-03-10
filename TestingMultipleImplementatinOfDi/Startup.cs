@@ -54,7 +54,7 @@ namespace TestingMultipleImplementatinOfDi
             app.UseAuthorization();
 
             // Custom Middleware
-            app.UseMiddleware<FileProcessingMiddleware>();
+            //app.UseMiddleware<FileProcessingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

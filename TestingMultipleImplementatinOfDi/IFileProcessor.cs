@@ -4,6 +4,6 @@ namespace TestingMultipleImplementatinOfDi
 {
     public interface IFileProcessor
     {
-        void ProcessFile();
+        string ProcessFile();
     }
 }
