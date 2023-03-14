@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Service.FileProcessor;
 using System.Threading.Tasks;
 
 namespace TestingMultipleImplementatinOfDi.Controllers
@@ -10,30 +9,26 @@ namespace TestingMultipleImplementatinOfDi.Controllers
     [ApiController]
     public class MultipleController : ControllerBase
     {
-        private readonly Func<bool, IFileProcessor> _serviceAccessor;
-
-        public MultipleController(Func<bool, IFileProcessor> serviceAccessor)
+        private readonly IFileProcessor _fileProcessor;
+        public MultipleController(IFileProcessor fileProcessor)
         {
-            _serviceAccessor = serviceAccessor;
+            _fileProcessor = fileProcessor;
         }
 
         [HttpPost]
         public async Task<ActionResult> PostImage(IFormFile formFile)
         {
             var fileSize = formFile.Length;
-            var context = new Context();
 
             if (fileSize > 100000)
             {
-                _serviceAccessor(true);
-                context.SetStrategy(new LargeFileProcessor());
-                return Ok (context.DoSomeBusinessLogic());
+                _fileProcessor.ProcessFile(true);
+                return Ok ("Process large file");
             }
             else
             {
-                _serviceAccessor(false);
-                context.SetStrategy(new SmallFileProcessor());
-                return Ok( context.DoSomeBusinessLogic());
+                _fileProcessor.ProcessFile(false);
+                return Ok("Process small file");
             }
         }
     }

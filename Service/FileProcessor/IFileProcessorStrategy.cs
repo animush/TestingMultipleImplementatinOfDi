@@ -2,7 +2,7 @@
 
 namespace TestingMultipleImplementatinOfDi
 {
-    public interface IFileProcessor
+    public interface IFileProcessorStrategy
     {
         string ProcessFile();
     }

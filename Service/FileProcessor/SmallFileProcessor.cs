@@ -2,11 +2,11 @@
 
 namespace TestingMultipleImplementatinOfDi
 {
-    public class LargeFileProcessor : IFileProcessor
+    public class SmallFileProcessor : IFileProcessorStrategy
     {
         public string ProcessFile()
         {
-            return "Process large file";
+            return "Process small file";
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Service.FileProcessor;
 using System;
 
 namespace TestingMultipleImplementatinOfDi
@@ -19,18 +20,7 @@ namespace TestingMultipleImplementatinOfDi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<Func<bool, IFileProcessor>>(serviceProvider => isLarge =>
-            {
-                switch (isLarge)
-                {
-                    case true:
-                        return serviceProvider.GetService<LargeFileProcessor>();
-                    case false:
-                        return serviceProvider.GetService<SmallFileProcessor>();
-                    default:
-                        throw new InvalidOperationException(); 
-                }
-            });
+            services.AddTransient<IFileProcessor, FileProcessor>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,9 +42,6 @@ namespace TestingMultipleImplementatinOfDi
             app.UseRouting();
 
             app.UseAuthorization();
-
-            // Custom Middleware
-            //app.UseMiddleware<FileProcessingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
